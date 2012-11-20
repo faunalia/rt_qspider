@@ -27,7 +27,7 @@ def description():
     return "Convert a table to a vector layer"
 
 def version():
-    return "0.1"
+    return "0.2"
 
 def qgisMinimumVersion():
     return "1.6.0"

@@ -55,14 +55,13 @@ class RTQSpiderDlg(QDialog, Ui_RTQSpiderDlg):
 
         # populate the fields combos with numeric fields
         for index, fld in self.vl.dataProvider().fields().iteritems():
-            if fld.type() in (QVariant.Int, QVariant.Double):
-                self.xPointCombo.addItem( fld.name(), index )
-                self.yPointCombo.addItem( fld.name(), index )
+            self.xPointCombo.addItem( fld.name(), index )
+            self.yPointCombo.addItem( fld.name(), index )
 
-                self.x1LineCombo.addItem( fld.name(), index )
-                self.y1LineCombo.addItem( fld.name(), index )
-                self.x2LineCombo.addItem( fld.name(), index )
-                self.y2LineCombo.addItem( fld.name(), index )
+            self.x1LineCombo.addItem( fld.name(), index )
+            self.y1LineCombo.addItem( fld.name(), index )
+            self.x2LineCombo.addItem( fld.name(), index )
+            self.y2LineCombo.addItem( fld.name(), index )
 
     def accept(self):
         mode = self.geomTypeCombo.itemData( self.geomTypeCombo.currentIndex() ).toInt()[0]
@@ -123,12 +122,22 @@ class RTQSpiderDlg(QDialog, Ui_RTQSpiderDlg):
             attrs = feat.attributeMap()
 
             # create the new feature geometry from its coordinates
-            p1 = QgsPoint(attrs[x1].toDouble()[0], attrs[y1].toDouble()[0])
+            x1d, okX1 = attrs[x1].toDouble()
+            y1d, okY1 = attrs[y1].toDouble()
+            if not all( [okX1, okY1] ):
+                continue
+            p1 = QgsPoint(x1d, y1d)
             if mode == QGis.WKBPoint:
                 geom = QgsGeometry.fromPoint(p1)
+
             elif mode == QGis.WKBLineString:
-                p2 = QgsPoint(attrs[x2].toDouble()[0], attrs[y2].toDouble()[0])
+                x2d, okX2 = attrs[x2].toDouble()
+                y2d, okY2 = attrs[y2].toDouble()
+                if not all( [okX2, okY2] ):
+                    continue
+                p2 = QgsPoint(x2d, y2d)
                 geom = QgsGeometry.fromPolyline( [p1, p2] )
+
             feat.setGeometry(geom)
 
             # write the feature

@@ -2,7 +2,7 @@
 [general]
 name=RT QSpider
 description=Convert a table to a vector layer
-version=0.1
+version=0.2
 qgisMinimumVersion=1.6.0
 
 ; not used yet, will allow to put a plugin in the right menu
