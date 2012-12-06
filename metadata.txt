@@ -17,7 +17,7 @@ email=sucameli@faunalia.it
 changelog=
 
 ; tags are in comma separated value format, spaces are allowed
-tags=
+tags=table,vector
 
 homepage=http://www.faunalia.com/
 tracker=http://hub.qgis.org/projects/rtqspider
