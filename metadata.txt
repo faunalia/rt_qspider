@@ -21,7 +21,8 @@ tags=
 
 homepage=http://www.faunalia.com/
 tracker=http://hub.qgis.org/projects/rtqspider
-repository=http://hub.qgis.org/projects/rtqspider/repository
+repository=https://github.com/faunalia/rt_qspider
+;repository=http://hub.qgis.org/projects/rtqspider/repository
 
 ; path to a icon within the plugin folder
 icon=icons/logo.png
