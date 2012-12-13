@@ -47,3 +47,4 @@ def icon():
 def classFactory(iface):
     from .plugin import RTQSpiderPlugin
     return RTQSpiderPlugin(iface)
+
