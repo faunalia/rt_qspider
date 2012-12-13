@@ -1,8 +1,8 @@
 ; the next section is mandatory
 [general]
 name=RT QSpider
-description=Convert a table to a vector layer
-version=0.2
+description=Convert the selected table to an event layer (based on an X,Y pair) or to a spider diagram (based on two X,Y pairs)
+version=0.3
 qgisMinimumVersion=1.6.0
 
 ; not used yet, will allow to put a plugin in the right menu

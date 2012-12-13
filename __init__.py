@@ -3,7 +3,7 @@
 """
 /***************************************************************************
 Name                 : RT QSpider
-Description          : Convert a table to a vector layer
+Description          : Convert a table to an event layer or a spider diagram
 Date                 : Nov 14, 2012 
 copyright            : (C) 2012 by Giuseppe Sucameli (Faunalia)
 email                : brush.tyler@gmail.com
@@ -24,10 +24,10 @@ def name():
     return "RT QSpider"
 
 def description():
-    return "Convert a table to a vector layer"
+    return "Convert the selected table to an event layer (based on an X,Y pair) or to a spider diagram (based on two X,Y pairs)"
 
 def version():
-    return "0.2"
+    return "0.3"
 
 def qgisMinimumVersion():
     return "1.6.0"

@@ -3,7 +3,7 @@
 """
 /***************************************************************************
 Name                 : RT QSpider
-Description          : Convert a table to a vector layer
+Description          : Convert a table to an event layer or a spider diagram
 Date                 : Nov 14, 2012 
 copyright            : (C) 2012 by Giuseppe Sucameli (Faunalia)
 email                : brush.tyler@gmail.com
