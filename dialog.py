@@ -122,8 +122,8 @@ class RTQSpiderDlg(QDialog, Ui_RTQSpiderDlg):
             x1d_toconv = feat[x1]
             y1d_toconv = feat[y1]
             try:
-                x1d = double(x1d_toconv)
-                y1d =  double(y1d_toconv)
+                x1d = float(x1d_toconv)
+                y1d =  float(y1d_toconv)
             except:
                 continue
             p1 = QgsPoint(x1d, y1d)
@@ -133,9 +133,10 @@ class RTQSpiderDlg(QDialog, Ui_RTQSpiderDlg):
             elif mode == QGis.WKBLineString:
                 x2d_toconv = feat[x2]
                 y2d_toconv = feat[y2]
+                print x2d_toconv, y2d_toconv
                 try:
-                    x2d = double(x2d_toconv)
-                    y2d =  double(y2d_toconv)
+                    x2d = float(x2d_toconv)
+                    y2d =  float(y2d_toconv)
                 except:
                     continue
                 p2 = QgsPoint(x2d, y2d)
