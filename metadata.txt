@@ -14,7 +14,7 @@ email=sucameli@faunalia.it
 ; end of mandatory metadata
 
 ; start of optional metadata
-changelog=ported to sip API 2.0
+changelog=ported to sip API 2.0 and some modification to QGIS API 2.0
 
 ; tags are in comma separated value format, spaces are allowed
 tags=table,vector
