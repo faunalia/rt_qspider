@@ -16,6 +16,7 @@
 *                                                                         *
 ***************************************************************************
 """
+import qgis
 
 __author__ = 'Giuseppe Sucameli'
 __date__ = 'June 2010'
@@ -44,18 +45,12 @@ class CRSDialog(QDialog):
       self.connect(buttonBox, SIGNAL("accepted()"), self.accept)
       self.connect(buttonBox, SIGNAL("rejected()"), self.reject)
 
-  def epsg(self):
-      return "EPSG:" + str(self.selector.selectedEpsg())
-
-  def proj4string(self):
-      return self.selector.selectedProj4String()
+  def authId(self):
+      return str(self.selector.selectedAuthId())
 
   def getProjection(self):
-      if self.selector.selectedEpsg() != 0:
-        return self.epsg()
+      if self.selector.selectedAuthId() != 0:
+          return self.authId()
 
-      if not self.selector.selectedProj4String().isEmpty():
-        return self.proj4string()
-
-      return QString()
+      return str("")
 

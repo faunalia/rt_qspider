@@ -21,7 +21,7 @@ email                : brush.tyler@gmail.com
 """
 
 from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from PyQt4.QtGui import *   
 
 from qgis.core import *
 from qgis.gui import *
@@ -54,25 +54,25 @@ class RTQSpiderDlg(QDialog, Ui_RTQSpiderDlg):
             self.geomTypeCombo.addItem(name, val)
 
         # populate the fields combos with numeric fields
-        for index, fld in self.vl.dataProvider().fields().iteritems():
+        for index, fld in enumerate(self.vl.dataProvider().fields()):
             self.xPointCombo.addItem( fld.name(), index )
             self.yPointCombo.addItem( fld.name(), index )
-
+ 
             self.x1LineCombo.addItem( fld.name(), index )
             self.y1LineCombo.addItem( fld.name(), index )
             self.x2LineCombo.addItem( fld.name(), index )
             self.y2LineCombo.addItem( fld.name(), index )
 
     def accept(self):
-        mode = self.geomTypeCombo.itemData( self.geomTypeCombo.currentIndex() ).toInt()[0]
+        mode = self.geomTypeCombo.itemData( self.geomTypeCombo.currentIndex() )
 
         # check whether required values was filled
         if mode == QGis.WKBPoint:
             if self.xPointCombo.currentIndex() < 0 or \
                     self.yPointCombo.currentIndex() < 0:
                 return
-            x1 = self.xPointCombo.itemData( self.xPointCombo.currentIndex() ).toInt()[0]
-            y1 = self.yPointCombo.itemData( self.yPointCombo.currentIndex() ).toInt()[0]
+            x1 = self.xPointCombo.itemData( self.xPointCombo.currentIndex() )
+            y1 = self.yPointCombo.itemData( self.yPointCombo.currentIndex() )
             if -1 in (x1, y1):
                # robusness check: this block of code should never be reached
                raise ValueError("invalid field index found...")
@@ -83,17 +83,17 @@ class RTQSpiderDlg(QDialog, Ui_RTQSpiderDlg):
                     self.x2LineCombo.currentIndex() < 0 or \
                     self.y2LineCombo.currentIndex() < 0:
                 return
-            x1 = self.x1LineCombo.itemData( self.x1LineCombo.currentIndex() ).toInt()[0]
-            y1 = self.y1LineCombo.itemData( self.y1LineCombo.currentIndex() ).toInt()[0]
-            x2 = self.x2LineCombo.itemData( self.x2LineCombo.currentIndex() ).toInt()[0]
-            y2 = self.y2LineCombo.itemData( self.y2LineCombo.currentIndex() ).toInt()[0]
+            x1 = self.x1LineCombo.itemData( self.x1LineCombo.currentIndex() )
+            y1 = self.y1LineCombo.itemData( self.y1LineCombo.currentIndex() )
+            x2 = self.x2LineCombo.itemData( self.x2LineCombo.currentIndex() )
+            y2 = self.y2LineCombo.itemData( self.y2LineCombo.currentIndex() )
             if -1 in (x1, y1, x2, y2):
                # robusness check: this block of code should never be reached
                raise ValueError("invalid field index found...")
 
         # let's ask for a output shapefile path
         settings = QSettings()
-        lastDir = settings.value("/rt_qspider/lastUsedDir", "").toString()
+        lastDir = settings.value("/rt_qspider/lastUsedDir", "", type=str)
         filename = QFileDialog.getSaveFileName(self, 
                 "Choose where to save the output shapefile", lastDir, 
                 "Shapefile (*.shp)")
@@ -112,28 +112,31 @@ class RTQSpiderDlg(QDialog, Ui_RTQSpiderDlg):
                 u"Failed to create the output shapefile '%s' due to the following error:\n%s" % (filename, writer.errorMessage()))
             return
 
-        errors = QStringList()
+        errors = []
         count = 0
-
+        
         # iterate through al the features
-        self.vl.select(self.vl.pendingAllAttributesList(), QgsRectangle(), False)
-        feat = QgsFeature()
-        while self.vl.nextFeature(feat):
-            attrs = feat.attributeMap()
-
+        features = self.vl.getFeatures()
+        for feat in features:
             # create the new feature geometry from its coordinates
-            x1d, okX1 = attrs[x1].toDouble()
-            y1d, okY1 = attrs[y1].toDouble()
-            if not all( [okX1, okY1] ):
+            x1d_toconv = feat[x1]
+            y1d_toconv = feat[y1]
+            try:
+                x1d = double(x1d_toconv)
+                y1d =  double(y1d_toconv)
+            except:
                 continue
             p1 = QgsPoint(x1d, y1d)
             if mode == QGis.WKBPoint:
                 geom = QgsGeometry.fromPoint(p1)
 
             elif mode == QGis.WKBLineString:
-                x2d, okX2 = attrs[x2].toDouble()
-                y2d, okY2 = attrs[y2].toDouble()
-                if not all( [okX2, okY2] ):
+                x2d_toconv = feat[x2]
+                y2d_toconv = feat[y2]
+                try:
+                    x2d = double(x2d_toconv)
+                    y2d =  double(y2d_toconv)
+                except:
                     continue
                 p2 = QgsPoint(x2d, y2d)
                 geom = QgsGeometry.fromPolyline( [p1, p2] )
@@ -143,13 +146,13 @@ class RTQSpiderDlg(QDialog, Ui_RTQSpiderDlg):
             # write the feature
             writer.addFeature(feat)
             if writer.hasError() != QgsVectorFileWriter.NoError:
-                errors << writer.errorMessage()
+                errors.append(writer.errorMessage())
             count += 1
 
         # close the writer and check for failures
         if writer.hasError() != QgsVectorFileWriter.NoError:
             QMessageBox.warning(self, "RT QSpider", 
-                u"Failed to write %s features of %s due to the following errors:\n%s" % (len(errors), count, errors.join("\n")))
+                u"Failed to write %s features of %s due to the following errors:\n%s" % (len(errors), count, "\n".join(errors)))
 
             # exit if no features was added
             if len(errors) >= count:
