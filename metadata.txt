@@ -9,7 +9,7 @@ qgisMinimumVersion=2.0
 category=Plugin
 
 author=Giuseppe Sucameli (Faunalia)
-email=sucameli@faunalia.it
+email=info@faunalia.eu
 
 ; end of mandatory metadata
 
@@ -19,7 +19,7 @@ changelog=ported to sip API 2.0 and some modification to QGIS API 2.0 thanks to 
 ; tags are in comma separated value format, spaces are allowed
 tags=table,vector
 
-homepage=http://www.faunalia.com/
+homepage=http://www.faunalia.eu/
 tracker=http://hub.qgis.org/projects/rtqspider
 repository=https://github.com/faunalia/rt_qspider
 ;repository=http://hub.qgis.org/projects/rtqspider/repository
