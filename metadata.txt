@@ -2,7 +2,7 @@
 [general]
 name=RT QSpider
 description=Convert the selected table to an event layer (based on an X,Y pair) or to a spider diagram (based on two X,Y pairs)
-version=0.4
+version=0.4.1
 qgisMinimumVersion=2.0
 
 ; not used yet, will allow to put a plugin in the right menu
@@ -14,7 +14,10 @@ email=info@faunalia.eu
 ; end of mandatory metadata
 
 ; start of optional metadata
-changelog=ported to sip API 2.0 and some modification to QGIS API 2.0 thanks to Regione Toscana
+changelog=0.4.1
+	bug on console file descritor not available on Win http://hub.qgis.org/issues/10440
+	0.4
+	ported to sip API 2.0 and some modification to QGIS API 2.0 thanks to Regione Toscana
 
 ; tags are in comma separated value format, spaces are allowed
 tags=table,vector
