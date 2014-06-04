@@ -30,5 +30,5 @@ repository=https://github.com/faunalia/rt_qspider
 ; path to a icon within the plugin folder
 icon=icons/logo.png
 
-experimental=True
+experimental=False
 deprecated=False
