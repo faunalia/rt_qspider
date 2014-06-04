@@ -133,7 +133,6 @@ class RTQSpiderDlg(QDialog, Ui_RTQSpiderDlg):
             elif mode == QGis.WKBLineString:
                 x2d_toconv = feat[x2]
                 y2d_toconv = feat[y2]
-                print x2d_toconv, y2d_toconv
                 try:
                     x2d = float(x2d_toconv)
                     y2d =  float(y2d_toconv)
